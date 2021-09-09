@@ -16,11 +16,11 @@ pygame.font.init()
 #         GLOBAL VARIABLES         #
 ####################################
 
-WIDTH = 600
+WIDTH = 550
 HEIGHT = 600
 TITLE = "Helpdesk v3"
 
-WHITE = (255, 255, 255)
+BACKGROUND = pygame.image.load("assets/ui/background/background.png")
 
 ####################################
 #            MAIN CLASS            #
@@ -48,7 +48,7 @@ class Window():
             self.update()
 
     def draw(self):
-        self.screen.fill(WHITE)
+        self.screen.blit(BACKGROUND, (0, 0))
 
     def update(self):
         pygame.display.update()
