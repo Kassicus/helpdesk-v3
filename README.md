@@ -12,8 +12,9 @@ After playing around with a few prototyping versions, and trying to figure out w
 ### Requirements
 - Ability to tally **Helpdesk tickets**
 - Ability to tally **In-person tickets**
-- Some form of quick visualization to show the ratio between the two *ended up with a percentage bar approach*
+- Some form of quick visualization to show the ratio between the two *(ended up with a percentage bar approach)*
 - A text field displaying all information, that could be exported as a .txt file for archive
 - The ability to save the current information and close the program.
 - The ability to save the information as a weekday.
 - The ability to track the weekdays in the program, for quick visualization of the recent history.
+- The ability to change the average percentage in the program *(This should load by default)*
