@@ -23,6 +23,7 @@ title = "Helpdesk v3"
 
 percentFill = (150, 140, 235)
 averageFill = (251, 244, 106)
+helpdeskFill = (243, 85, 119)
 
 ####################################
 #          BUTTON CLASS            #
@@ -95,14 +96,14 @@ class Average():
         self.valueText = self.font.render(str(self.value), False, averageFill)
 
         self.incButton = Button(400, 110, 50, 15, pygame.image.load("assets/ui/buttons/averageIncButton.png"), self.incValue)
-        self.decButton = Button(400, 180, 50, 15, pygame.image.load("assets/ui/buttons/averageDecButton.png"), self.decValue)
+        self.decButton = Button(400, 190, 50, 15, pygame.image.load("assets/ui/buttons/averageDecButton.png"), self.decValue)
 
         self.saveButton = Button(475, 110, 50, 35, pygame.image.load("assets/ui/buttons/averageSaveButton.png"), self.saveValue)
-        self.loadButton = Button(475, 160, 50, 35, pygame.image.load("assets/ui/buttons/averageLoadButton.png"), self.loadValue)
+        self.loadButton = Button(475, 170, 50, 35, pygame.image.load("assets/ui/buttons/averageLoadButton.png"), self.loadValue)
 
     def draw(self, surface):
         surface.blit(self.image, (self.x + self.offset, self.y))
-        surface.blit(self.valueText, (408, 132))
+        surface.blit(self.valueText, (409, 137))
 
         self.incButton.draw(surface)
         self.decButton.draw(surface)
@@ -147,6 +148,8 @@ class Window():
 
         self.background = pygame.image.load("assets/ui/background/background.png")
 
+        self.font = pygame.font.Font("assets/fonts/VT323/VT323-Regular.ttf", 32)
+
         self.filename = ""
 
         self.slider = Slider()
@@ -156,6 +159,9 @@ class Window():
         self.helpdeskTickets = 0
 
         self.percentNonHelpdesk = 0
+
+        self.inpersonTicketText = self.font.render(str(self.inpersonTickets), True, percentFill)
+        self.helpdeskTicketText = self.font.render(str(self.helpdeskTickets), True, helpdeskFill)
 
         self.totalTickets = int(self.inpersonTickets + self.helpdeskTickets)
 
@@ -183,7 +189,7 @@ class Window():
 
     def loadData(self):
         self.helpdeskTickets = pickle.load(open("data/tickets/helpdeskTickets.p", "rb"))
-        self.inpersonTickers = pickle.load(open("data/tickets/inpersonTickets.p", "rb"))
+        self.inpersonTickets = pickle.load(open("data/tickets/inpersonTickets.p", "rb"))
 
     def exportData(self):
         getDay = date.today()
@@ -221,6 +227,20 @@ class Window():
         self.inpersonButton.draw(self.screen)
         self.helpdeskButton.draw(self.screen)
 
+        self.saveButton.draw(self.screen)
+        self.loadButton.draw(self.screen)
+        self.exportButton.draw(self.screen)
+
+        if self.inpersonTickets < 10:
+            self.screen.blit(self.inpersonTicketText, (288, 110))
+        else:
+            self.screen.blit(self.inpersonTicketText, (282, 110))
+
+        if self.helpdeskTickets < 10:
+            self.screen.blit(self.helpdeskTicketText, (348, 110))
+        else:
+            self.screen.blit(self.helpdeskTicketText, (342, 110))
+
     def update(self):
         self.average.update(self.events)
 
@@ -236,6 +256,13 @@ class Window():
 
         self.inpersonButton.update(self.events)
         self.helpdeskButton.update(self.events)
+
+        self.saveButton.update(self.events)
+        self.loadButton.update(self.events)
+        self.exportButton.update(self.events)
+
+        self.inpersonTicketText = self.font.render(str(self.inpersonTickets), True, percentFill)
+        self.helpdeskTicketText = self.font.render(str(self.helpdeskTickets), True, helpdeskFill)
 
         pygame.display.update()
         self.clock.tick(30)
