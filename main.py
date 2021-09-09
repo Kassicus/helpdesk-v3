@@ -18,8 +18,8 @@ pygame.font.init()
 ####################################
 
 width = 550
-height = 600
-title = "Helpdesk v3"
+height = 230
+title = "Helpdesk Ticket Tracker"
 
 percentFill = (150, 140, 235)
 averageFill = (251, 244, 106)
