@@ -63,11 +63,14 @@ class Slider():
         self.width = 500
         self.height = 35
 
-        self.value = 50
+        self.value = 0
         self.fill = int(self.value * 5)
 
     def draw(self, surface):
         pygame.draw.rect(surface, percentFill, (self.x, self.y, self.fill, self.height))
+
+    def update(self):
+        self.fill = int(self.value * 5)
 
 ####################################
 #         AVERAGE CLASS            #
@@ -146,6 +149,27 @@ class Window():
         self.slider = Slider()
         self.average = Average()
 
+        self.inpersonTickets = 0
+        self.helpdeskTickets = 0
+
+        self.percentNonHelpdesk = 0
+
+        self.totalTickets = int(self.inpersonTickets + self.helpdeskTickets)
+
+        try:
+            self.percentNonHelpdesk = int(self.inpersonTickets / self.totalTickets) * 100
+        except:
+            pass
+
+        self.inpersonButton = Button(25, 110, 100, 35, pygame.image.load("assets/ui/buttons/inpersonButton.png"), self.incInpersonTickets)
+        self.helpdeskButton = Button(150, 110, 100, 35, pygame.image.load("assets/ui/buttons/helpdeskButton.png"), self.incHelpdeskTickets)
+
+    def incInpersonTickets(self):
+        self.inpersonTickets += 1
+
+    def incHelpdeskTickets(self):
+        self.helpdeskTickets += 1
+
     def start(self):
         self.average.loadValue()
 
@@ -166,8 +190,24 @@ class Window():
         self.slider.draw(self.screen)
         self.average.draw(self.screen)
 
+        self.inpersonButton.draw(self.screen)
+        self.helpdeskButton.draw(self.screen)
+
     def update(self):
         self.average.update(self.events)
+
+        self.totalTickets = int(self.inpersonTickets + self.helpdeskTickets)
+
+        try:
+            self.percentNonHelpdesk = int((self.inpersonTickets / self.totalTickets) * 100)
+        except:
+            pass
+
+        self.slider.value = self.percentNonHelpdesk
+        self.slider.update()
+
+        self.inpersonButton.update(self.events)
+        self.helpdeskButton.update(self.events)
 
         pygame.display.update()
         self.clock.tick(30)
