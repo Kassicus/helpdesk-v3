@@ -100,7 +100,6 @@ class Window():
         pygame.display.update()
         self.clock.tick(30)
 
-
 ####################################
 #          ON PROG STARTUP         #
 ####################################
