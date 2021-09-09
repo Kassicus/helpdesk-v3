@@ -4,6 +4,7 @@
 
 import pygame # The library used for all of the graphics
 import pickle # For easy saving and loading of object data
+from datetime import date # For exporting data with the date as the file name
 
 ####################################
 #          PROJECT SETUP           #
@@ -146,6 +147,8 @@ class Window():
 
         self.background = pygame.image.load("assets/ui/background/background.png")
 
+        self.filename = ""
+
         self.slider = Slider()
         self.average = Average()
 
@@ -164,11 +167,36 @@ class Window():
         self.inpersonButton = Button(25, 110, 100, 35, pygame.image.load("assets/ui/buttons/inpersonButton.png"), self.incInpersonTickets)
         self.helpdeskButton = Button(150, 110, 100, 35, pygame.image.load("assets/ui/buttons/helpdeskButton.png"), self.incHelpdeskTickets)
 
+        self.saveButton = Button(25, 170, 100, 35, pygame.image.load("assets/ui/buttons/saveButton.png"), self.saveData)
+        self.loadButton = Button(150, 170, 100, 35, pygame.image.load("assets/ui/buttons/loadButton.png"), self.loadData)
+        self.exportButton = Button(275, 170, 100, 35, pygame.image.load("assets/ui/buttons/exportButton.png"), self.exportData)
+
     def incInpersonTickets(self):
         self.inpersonTickets += 1
 
     def incHelpdeskTickets(self):
         self.helpdeskTickets += 1
+
+    def saveData(self):
+        pickle.dump(self.helpdeskTickets, open("data/tickets/helpdeskTickets.p", "wb"))
+        pickle.dump(self.inpersonTickets, open("data/tickets/inpersonTickets.p", "wb"))
+
+    def loadData(self):
+        self.helpdeskTickets = pickle.load(open("data/tickets/helpdeskTickets.p", "rb"))
+        self.inpersonTickers = pickle.load(open("data/tickets/inpersonTickets.p", "rb"))
+
+    def exportData(self):
+        getDay = date.today()
+        today = getDay.strftime("%m-%d-%y")
+        self.filename = str("data/exports/" + today + ".txt")
+
+        with open(self.filename, "w") as file:
+            file.write("\n")
+            file.write("Helpdesk Tickets: " + str(self.helpdeskTickets) + "\n")
+            file.write("In-person Tickets: " + str(self.inpersonTickets) + "\n")
+            file.write("Total Tickets: " + str(self.totalTickets) + "\n")
+            file.write("\n")
+            file.write("Percent of non Helpdesk Tickets: " + str(self.percentNonHelpdesk) + "%" + "\n")
 
     def start(self):
         self.average.loadValue()
