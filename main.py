@@ -206,12 +206,15 @@ class Window():
 
     def start(self):
         self.average.loadValue()
+        self.loadData()
 
         while self.running:
             self.events = pygame.event.get()
 
             for event in self.events:
                 if event.type == pygame.QUIT:
+                    self.average.saveData()
+                    self.saveData()
                     self.running = False
 
             self.draw()
