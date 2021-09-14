@@ -1,6 +1,6 @@
 
-Helpdesk Tickets: 2
-In-person Tickets: 12
-Total Tickets: 14
+Helpdesk Tickets: 3
+In-person Tickets: 13
+Total Tickets: 16
 
-Percent of non Helpdesk Tickets: 85%
+Percent of non Helpdesk Tickets: 81%

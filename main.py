@@ -174,7 +174,7 @@ class Window():
         self.helpdeskButton = Button(150, 110, 100, 35, pygame.image.load("assets/ui/buttons/helpdeskButton.png"), self.incHelpdeskTickets)
 
         self.saveButton = Button(25, 170, 100, 35, pygame.image.load("assets/ui/buttons/saveButton.png"), self.saveData)
-        self.loadButton = Button(150, 170, 100, 35, pygame.image.load("assets/ui/buttons/loadButton.png"), self.loadData)
+        self.resetButton = Button(150, 170, 100, 35, pygame.image.load("assets/ui/buttons/resetButton.png"), self.resetData)
         self.exportButton = Button(275, 170, 100, 35, pygame.image.load("assets/ui/buttons/exportButton.png"), self.exportData)
 
     def incInpersonTickets(self):
@@ -190,6 +190,10 @@ class Window():
     def loadData(self):
         self.helpdeskTickets = pickle.load(open("data/tickets/helpdeskTickets.p", "rb"))
         self.inpersonTickets = pickle.load(open("data/tickets/inpersonTickets.p", "rb"))
+
+    def resetData(self):
+        self.helpdeskTickets = 0
+        self.inpersonTickets = 0
 
     def exportData(self):
         getDay = date.today()
@@ -213,7 +217,7 @@ class Window():
 
             for event in self.events:
                 if event.type == pygame.QUIT:
-                    self.average.saveData()
+                    self.average.saveValue()
                     self.saveData()
                     self.running = False
 
@@ -231,7 +235,7 @@ class Window():
         self.helpdeskButton.draw(self.screen)
 
         self.saveButton.draw(self.screen)
-        self.loadButton.draw(self.screen)
+        self.resetButton.draw(self.screen)
         self.exportButton.draw(self.screen)
 
         if self.inpersonTickets < 10:
@@ -252,7 +256,7 @@ class Window():
         try:
             self.percentNonHelpdesk = int((self.inpersonTickets / self.totalTickets) * 100)
         except:
-            pass
+            self.percentNonHelpdesk = 0
 
         self.slider.value = self.percentNonHelpdesk
         self.slider.update()
@@ -261,7 +265,7 @@ class Window():
         self.helpdeskButton.update(self.events)
 
         self.saveButton.update(self.events)
-        self.loadButton.update(self.events)
+        self.resetButton.update(self.events)
         self.exportButton.update(self.events)
 
         self.inpersonTicketText = self.font.render(str(self.inpersonTickets), True, percentFill)
